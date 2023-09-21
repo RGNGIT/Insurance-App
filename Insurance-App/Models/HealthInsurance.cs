@@ -10,6 +10,8 @@ namespace Insurance_App.Models
     {
         public string SNILS { get; set; }
 
+        public override string ShortDefinition { get; } = "случай со здоровьем";
+
         public HealthInsurance(string SNILS)
         {
             this.SNILS = SNILS;

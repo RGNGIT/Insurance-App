@@ -10,5 +10,6 @@ namespace Insurance_App
     static class Storage
     {
         public static List<InsuranceDocument> InsuranceDocuments = new();
+        public static List<InsuranceDocument> ExpiredDocuments = new();
     }
 }

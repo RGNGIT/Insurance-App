@@ -10,6 +10,8 @@ namespace Insurance_App.Models
     {
         public string CarMark { get; set; }
 
+        public override string ShortDefinition { get; } = "случай с автомобилем";
+
         public CarInsurance(string CarMark)
         {
             this.CarMark = CarMark;

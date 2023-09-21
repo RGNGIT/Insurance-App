@@ -10,6 +10,8 @@ namespace Insurance_App.Models
     {
         public string Address { get; set; }
 
+        public override string ShortDefinition { get; } = "случай с недвижимостью";
+
         public AssetInsurance(string Address) 
         {
             this.Address = Address;

@@ -22,6 +22,9 @@ namespace Insurance_App.Models
         public DateTime ValidUntil { get; set; }
         public float MaxSum { get; set; }
         public float Franchise { get; set; }
+        public float Income { get; set; }
+
+        public virtual string ShortDefinition { get; } = null!;
 
         public InsuranceDocument() 
         {

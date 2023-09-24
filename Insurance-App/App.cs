@@ -180,6 +180,7 @@ namespace Insurance_App
                             document.MaxSum.ToString()!,
                             document.Franchise.ToString()!,
                             $"{(document as CarInsurance)!.CarMark}",
+                            document.Income,
                             "Нет"
                             );
 
@@ -191,6 +192,7 @@ namespace Insurance_App
                             document.MaxSum.ToString()!,
                             document.Franchise.ToString()!,
                             $"{(document as AssetInsurance)!.Address}",
+                            document.Income,
                             "Нет"
                             );
 
@@ -202,6 +204,7 @@ namespace Insurance_App
                             document.MaxSum.ToString()!,
                             document.Franchise.ToString()!,
                             $"{(document as HealthInsurance)!.SNILS}",
+                            document.Income,
                             "Нет"
                             );
                 }
@@ -214,6 +217,9 @@ namespace Insurance_App
 
             for(int i = 0; i < Storage.InsuranceDocuments.Count && i < cases; i++) 
             {
+                if (Storage.ExpiredDocuments.Contains(Storage.InsuranceDocuments[i]))
+                    continue;
+
                 float damage = new Random().Next(
                     Convert.ToInt32(Storage.InsuranceDocuments[i].Franchise - 10000), 
                     Convert.ToInt32(Storage.InsuranceDocuments[i].Franchise + 10000)
@@ -244,6 +250,34 @@ namespace Insurance_App
             }
         }
 
+        void ItsCollectingTime() 
+        {
+            foreach(InsuranceDocument document in Storage.InsuranceDocuments) 
+            {
+                if(!Storage.ExpiredDocuments.Contains(document)) 
+                {
+                    if (document.BillingPeriod == EInsuranceBillingPeriod.Monthly)
+                    {
+                        bank += document.Income;
+                        listBoxEvents.Items.Add($"За страховку {document.Id} внесли плату {document.Income}p.");
+                    }
+
+                    if (month % 3 == 0 && document.BillingPeriod == EInsuranceBillingPeriod.Quarterly)
+                    {
+                        bank += document.Income;
+                        listBoxEvents.Items.Add($"За страховку {document.Id} внесли плату {document.Income}p.");
+                    }
+
+                    if(month % 12 == 0 && document.BillingPeriod == EInsuranceBillingPeriod.Annualy)
+                    {
+                        bank += document.Income;
+                        listBoxEvents.Items.Add($"За страховку {document.Id} внесли плату {document.Income}p.");
+                    }
+                }
+
+            }
+        }
+
         private void buttonAddMonth_Click(object sender, EventArgs e)
         {
             month++;
@@ -256,6 +290,7 @@ namespace Insurance_App
 
             dateTimePickerCurrentDate.Value = dateTimePickerCurrentDate.Value.AddMonths(1);
             AddExpiredInsuranceDocument();
+            ItsCollectingTime();
             WannaSomeTroubles();
             TaxCheck();
         }
